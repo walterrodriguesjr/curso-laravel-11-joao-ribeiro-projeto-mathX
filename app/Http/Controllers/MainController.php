@@ -14,7 +14,17 @@ class MainController extends Controller
 
     public function generateExercises(Request $request)
     {
-        echo "Gerar exercícios";
+        //form validation 
+        $request->validate([
+            'check_sum' => 'required_without_all:check_subtraction, check_miltiplication, check_division',
+            'check_subtraction' => 'required_without_all:check_sum, check_miltiplication, check_division',
+            'check_miltiplication' => 'required_without_all:check_sum, check_subtraction, check_division',
+            'check_division' => 'required_without_all:check_sum, check_subtraction, check_miltiplication',
+            'number_one' => 'required|integer|min:0|max:999',
+            'number_two' => 'required|integer|min:0|max:999',
+            'number_exercises' => 'required|integer|min:5|max:50',
+        ]);
+        dd($request->all());
     }
 
     public function printExercises()
