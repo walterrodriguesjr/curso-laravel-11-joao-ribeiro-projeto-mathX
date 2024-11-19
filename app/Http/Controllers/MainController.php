@@ -12,9 +12,9 @@ class MainController extends Controller
         return view('home');
     }
 
-    public function generateExercises(Request $request)
+    public function generateExercises(Request $request): View
     {
-        //form validation 
+        //form validation
         $request->validate([
             'check_sum' => 'required_without_all:check_subtraction, check_miltiplication, check_division',
             'check_subtraction' => 'required_without_all:check_sum, check_miltiplication, check_division',
@@ -25,22 +25,22 @@ class MainController extends Controller
             'number_exercises' => 'required|integer|min:5|max:50',
         ]);
 
-        //get selected operations 
+        //get selected operations
         $operations = [];
         if($request->check_sum) { $operations[] = 'sum'; }
         if($request->check_subtraction) { $operations[] = 'subtraction'; }
         if($request->check_multiplication) { $operations[] = 'multiplication'; }
         if($request->check_division) { $operations[] = 'division'; }
-      
+
 
         //get numbers (min and max)
         $min = $request->number_one;
         $max = $request->number_two;
 
-        //get number of exercices 
+        //get number of exercices
         $numberExercises = $request->number_exercises;
 
-        //generate exercises 
+        //generate exercises
         $exercises = [];
         for ($index = 1; $index <= $numberExercises; $index++) {
             $operation = $operations[array_rand($operations)];
@@ -65,7 +65,7 @@ class MainController extends Controller
                     break;
                 case 'division':
 
-                    //avoid division by zero 
+                    //avoid division by zero
                     if($number2 == 0){
                         $number2 = 1;
                     }
@@ -75,7 +75,7 @@ class MainController extends Controller
                     break;
             }
 
-            //if $sollution is a float number, round it to 2 decimal places 
+            //if $sollution is a float number, round it to 2 decimal places
             if(is_float($sollution)){
                 $sollution = round($sollution, 2);
             }
@@ -89,7 +89,7 @@ class MainController extends Controller
 
         }
 
-        dd($exercises);
+        return view('operations', ['exercises' => $exercises]);
 
     }
 
