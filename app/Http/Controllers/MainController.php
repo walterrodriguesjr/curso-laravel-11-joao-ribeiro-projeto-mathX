@@ -70,7 +70,7 @@ class MainController extends Controller
                         $number2 = 1;
                     }
 
-                    $exercise = "$number1 ? $number2 =";
+                    $exercise = "$number1 / $number2 =";
                     $sollution = $number1 / $number2;
                     break;
             }
